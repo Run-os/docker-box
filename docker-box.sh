@@ -1,6 +1,6 @@
 #!/bin/bash
 
-API_URL="https://api.github.com/repos/Run-os/dockers/contents/docker?ref=main"
+API_URL="https://api.github.com/repos/Run-os/docker-box/contents/docker?ref=main"
 
 # 功能：从GitHub获取docker配置列表，用户选择后下载并写入变量
 name=""
