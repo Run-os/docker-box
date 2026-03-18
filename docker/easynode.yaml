@@ -1,0 +1,64 @@
+# 在线服务器管理与远程控制工具
+
+services:
+  easynode:
+    container_name: easynode
+    image: docker.1ms.run/chaoszhu/easynode
+    restart: always
+    ports:
+      - 8082:8082
+    volumes:
+      - /root/easynode/db:/easynode/app/db
+    environment:
+      - TZ=Asia/Shanghai
+      - DEBUG=0
+      - GUACD_HOST=easynode-guacd
+      - GUACD_PORT=4822
+    depends_on:
+      easynode-guacd:
+        condition: service_healthy
+    networks:
+      - easynode-network
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+      watchcow.enable: "true"
+      watchcow.appname: "watchcow.easynode"
+      watchcow.display_name: "EasyNode"
+      watchcow.desc: "服务器管理与远程控制工具"
+      watchcow.version: "1.0.0"
+      watchcow.maintainer: "WatchCow"
+      watchcow.service_port: "8082"
+      watchcow.protocol: "http"
+      watchcow.path: "/"
+      watchcow.ui_type: "url"
+      watchcow.icon: "https://s2.loli.net/2026/01/15/O7pQ1ziNVEhclyf.png"
+
+  easynode-guacd:
+    container_name: easynode-guacd
+    image: docker.1ms.run/guacamole/guacd
+    restart: always
+    expose:
+      - "4822"
+    healthcheck:
+      test: ["CMD", "sh", "-c", "nc -z 127.0.0.1 4822"]
+      interval: 5s
+      timeout: 2s
+      retries: 10
+    networks:
+      - easynode-network
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
+
+  watchtower:
+    container_name: easynode-watchtower
+    image: docker.1ms.run/containrrr/watchtower
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --schedule "0 8 * * *" --label-enable
+    environment:
+      - TZ=Asia/Shanghai
+
+networks:
+  easynode-network:
+    driver: bridge

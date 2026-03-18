@@ -1,0 +1,39 @@
+# 思源笔记容器化部署
+services:
+  siyuan:
+    container_name: siyuan
+    image: b3log/siyuan
+    command: ['--workspace=/siyuan/workspace/', '--accessAuthCode=$name1269367656']
+    # user: "${TRIM_UID:-1000}:${TRIM_GID:-1001}"
+    ports:
+      - 6806:6806
+    volumes:
+      - /var/apps/docker-siyuan/shares/siyuan/workspace:/siyuan/workspace
+      - /var/apps/docker-siyuan/var/config:/.config
+    restart: unless-stopped
+    environment:
+      - TZ=Etc/UTC
+    networks:
+      - trim-default
+    labels:
+      # 启用 WatchCow 发现
+      watchcow.enable: "true"
+      
+      # 应用标识
+      watchcow.appname: "watchcow.siyuan"
+      watchcow.display_name: "SiYuan"
+      watchcow.desc: "思源笔记 Docker 版"
+      watchcow.version: "1.1.0"
+      watchcow.maintainer: "$name"
+      
+      # 网络配置
+      watchcow.service_port: "6806"  # 宿主机端口
+      watchcow.protocol: "http"
+      watchcow.path: "/"
+      
+      # UI 配置
+      watchcow.ui_type: "url"
+      watchcow.icon: "https://s2.loli.net/2026/01/19/Rv8U2QVKwGSMCzf.png"
+networks:
+  trim-default:
+    external: true

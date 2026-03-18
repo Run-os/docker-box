@@ -1,0 +1,55 @@
+# RSS 服务端容器化部署
+services:
+  miniflux:
+    image: miniflux/miniflux:latest
+    container_name: miniflux
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgres://miniflux:$password@miniflux-db/miniflux?sslmode=disable
+      - RUN_MIGRATIONS=1
+      - CREATE_ADMIN=1
+      - ADMIN_USERNAME=$name
+      - ADMIN_PASSWORD=$password
+    ports:
+      - "8085:8080"
+    volumes:
+      - ./data:/vol1/1000/Docker/miniflux/miniflux
+    labels:
+      # 启用 WatchCow 发现
+      watchcow.enable: "true"
+      
+      # 应用标识
+      watchcow.appname: "watchcow.miniflux"
+      watchcow.display_name: "miniflux"
+      watchcow.desc: "RSS 服务端"
+      watchcow.version: "1.0.0"
+      watchcow.maintainer: "WatchCow"
+      
+      # 网络配置
+      watchcow.service_port: "8085"  # 宿主机端口
+      watchcow.protocol: "http"
+      watchcow.path: "/"
+      
+      # UI 配置
+      watchcow.ui_type: "url"
+      watchcow.icon: "https://i.wpic.cc/g/2026/02/13/698f426963f25.png"
+
+
+  db:
+    image: postgres:16
+    container_name: miniflux-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=miniflux
+      - POSTGRES_PASSWORD=$password
+      - POSTGRES_DB=miniflux
+    volumes:
+      - ./pgsql_data:/vol1/1000/Docker/miniflux/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "miniflux"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

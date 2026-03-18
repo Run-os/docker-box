@@ -1,0 +1,32 @@
+# 开源 AI 知识库系统容器化部署
+
+services:
+  maxkb:
+    image: registry.fit2cloud.com/maxkb/maxkb
+    container_name: maxkb
+    ports:
+      - "8080:8080"
+    volumes:
+      - /vol1/1000/Docker/maxkb:/opt/maxkb
+    restart: always
+    network_mode: bridge
+    
+    labels:
+      # 启用 WatchCow 发现
+      watchcow.enable: "true"
+      
+      # 应用标识
+      watchcow.appname: "watchcow.maxkb"
+      watchcow.display_name: "MaxKB"
+      watchcow.desc: "开源 AI 知识库系统，支持自然语言查询"
+      watchcow.version: "1.0.0"
+      watchcow.maintainer: "WatchCow"
+      
+      # 网络配置
+      watchcow.service_port: "8080"
+      watchcow.protocol: "http"
+      watchcow.path: "/"
+      
+      # UI 配置
+      watchcow.ui_type: "url"
+      watchcow.icon: "https://pic1.imgdb.cn/item/696d85e4cc965d6157f7a5f2.png"

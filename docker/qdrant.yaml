@@ -1,0 +1,10 @@
+# roocode的本地向量数据库
+services:
+  qdrant:
+    image: qdrant/qdrant
+    container_name: qdrant
+    restart: always
+    volumes:
+      - qdrant_data:/qdrant/storage
+    tty: true
+    stdin_open: true

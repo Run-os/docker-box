@@ -1,0 +1,12 @@
+# ocr服务，基于paddle的ocr模型，提供http接口
+services:
+  umi-ocr:
+    image: y1jiong/umi-ocr-paddle:latest
+    container_name: umi-ocr
+    restart: always
+    ports:
+      - '1224:1224'
+    environment:
+      HEADLESS: 'true'
+    tty: true
+    stdin_open: true

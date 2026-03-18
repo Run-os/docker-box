@@ -1,0 +1,48 @@
+# docker版的clash，提供网络代理功能，支持多平台和多协议
+services:
+   mihomo:
+    container_name: mihomo
+    image: metacubex/mihomo:latest
+    restart: always
+    pid: host
+    ipc: host
+    network_mode: host
+    cap_add:
+      - ALL
+    volumes:
+      - /vol1/1000/Docker/mihomo:/root/.config/mihomo
+      - /dev/net/tun:/dev/net/tun
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      
+   metacubexd-ui:
+    container_name: metacubexd-ui
+    image: mrxianyu/metacubexd-ui
+    restart: always
+    ports:
+      - '9097:80'
+    volumes:
+      - /vol1/1000/Docker/mihomo/config.yaml:/root/.config/clash/config.yamlservices:
+   mihomo:
+    container_name: mihomo
+    image: metacubex/mihomo:latest
+    restart: always
+    pid: host
+    ipc: host
+    network_mode: host
+    cap_add:
+      - ALL
+    volumes:
+      - /vol1/1000/Docker/mihomo:/root/.config/mihomo
+      - /dev/net/tun:/dev/net/tun
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      
+   metacubexd-ui:
+    container_name: metacubexd-ui
+    image: mrxianyu/metacubexd-ui
+    restart: always
+    ports:
+      - '9097:80'
+    volumes:
+      - /vol1/1000/Docker/mihomo/config.yaml:/root/.config/clash/config.yaml
