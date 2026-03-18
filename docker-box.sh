@@ -211,7 +211,7 @@ select_and_install() {
     
     if [ "$start_now" = "y" ] || [ "$start_now" = "Y" ]; then
         green "正在启动容器..."
-        docker-compose up -d || {
+        docker compose up -d || {
             red "容器启动失败"
             return 1
         }
