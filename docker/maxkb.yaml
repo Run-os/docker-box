@@ -7,7 +7,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - /vol1/1000/Docker/maxkb:/opt/maxkb
+      - $docker-path/maxkb:/opt/maxkb
     restart: always
     network_mode: bridge
     
@@ -20,7 +20,7 @@ services:
       watchcow.display_name: "MaxKB"
       watchcow.desc: "开源 AI 知识库系统，支持自然语言查询"
       watchcow.version: "1.0.0"
-      watchcow.maintainer: "WatchCow"
+      watchcow.maintainer: "Runos"
       
       # 网络配置
       watchcow.service_port: "8080"

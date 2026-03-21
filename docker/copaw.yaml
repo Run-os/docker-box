@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  copaw:
+    image: agentscope-registry.ap-southeast-1.cr.aliyuncs.com/agentscope/copaw:latest
+    container_name: copaw
+    restart: always
+    ports:
+      - '8088:8088'
+    volumes:
+      - $docker-path/copaw/working:/app/working
+    
+    tty: true
+    stdin_open: true
+    
+    labels:
+      # 启用 WatchCow 发现
+      watchcow.enable: "true"
+      
+      # 应用标识
+      watchcow.appname: "watchcow.copaw"
+      watchcow.display_name: "Copaw"
+      watchcow.desc: "Copaw - 基于大模型的智能助手，提供自然语言交互和多模态能力"
+      watchcow.version: "1.0.0"
+      watchcow.maintainer: "Runos"
+      
+      # 网络配置
+      watchcow.service_port: "8088"  # 宿主机端口
+      watchcow.protocol: "http"
+      watchcow.path: "/"
+      
+      # UI 配置
+      watchcow.ui_type: "url"
+      watchcow.icon: "https://copaw.agentscope.io/copaw-symbol.svg"

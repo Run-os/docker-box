@@ -16,7 +16,7 @@ services:
     ports:
       - "8085:8080"
     volumes:
-      - ./data:/vol1/1000/Docker/miniflux/miniflux
+      - ./data:$docker-path/miniflux/miniflux
     labels:
       # 启用 WatchCow 发现
       watchcow.enable: "true"
@@ -26,7 +26,7 @@ services:
       watchcow.display_name: "miniflux"
       watchcow.desc: "RSS 服务端"
       watchcow.version: "1.0.0"
-      watchcow.maintainer: "WatchCow"
+      watchcow.maintainer: "Runos"
       
       # 网络配置
       watchcow.service_port: "8085"  # 宿主机端口
@@ -47,7 +47,7 @@ services:
       - POSTGRES_PASSWORD=$password
       - POSTGRES_DB=miniflux
     volumes:
-      - ./pgsql_data:/vol1/1000/Docker/miniflux/postgresql/data
+      - ./pgsql_data:$docker-path/miniflux/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "miniflux"]
       interval: 10s

@@ -9,8 +9,8 @@ services:
     environment:
       XIAOMUSIC_PUBLIC_PORT: 58090
     volumes:
-      - /vol1/1000/Music/media/xiaomusic_music:/app/music
-      - /vol1/1000/Music/media/xiaomusic_conf:/app/conf
+      - $docker-path/media/xiaomusic_music:/app/music
+      - $docker-path/media/xiaomusic_conf:/app/conf
     network_mode: bridge  # 添加网络模式确保兼容性
     
     labels:
@@ -22,7 +22,7 @@ services:
       watchcow.display_name: "小米音乐"
       watchcow.desc: "小米音乐 Docker 版 - 音乐播放与管理"
       watchcow.version: "1.0.0"
-      watchcow.maintainer: "WatchCow"
+      watchcow.maintainer: "Runos"
       
       # 网络配置
       watchcow.service_port: "58090"  # 宿主机端口

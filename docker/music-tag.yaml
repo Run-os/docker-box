@@ -7,7 +7,7 @@ services:
       - "8002:8002"
     volumes:
       - /vol1/1000/Music/media:/app/media
-      - /vol1/1000/Docker/music_tag_web/config:/app/data
+      - $docker-path/music_tag_web/config:/app/data
       - /vol1/1000/Music/download:/app/download
     restart: always
     network_mode: bridge  # 添加网络模式确保兼容性
@@ -21,7 +21,7 @@ services:
       watchcow.display_name: "音乐标签编辑器"
       watchcow.desc: "音乐标签编辑工具，用于管理和编辑音乐文件的元数据"
       watchcow.version: "1.0.0"
-      watchcow.maintainer: "WatchCow"
+      watchcow.maintainer: "Runos"
       
       # 网络配置
       watchcow.service_port: "8002"  # 宿主机端口

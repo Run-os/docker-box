@@ -7,7 +7,7 @@ services:
     ports:
       - 5230:5230
     volumes:
-      - /vol1/1000/Docker/memos/data:/var/opt/memos
+      - $docker-path/memos/data:/var/opt/memos
     tty: true
     stdin_open: true
     labels:

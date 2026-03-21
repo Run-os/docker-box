@@ -5,9 +5,9 @@ services:
     image: "hslr/sun-panel:latest"
     container_name: sun-panel
     volumes:
-      - /vol1/1000/Docker/sun-panel/conf:/app/conf
+      - $docker-path/sun-panel/conf:/app/conf
       - /var/run/docker.sock:/var/run/docker.sock # 挂载docker.sock
-      # - /vol1/1000/Docker/sun-panel/runtime:/app/runtime # 挂载日志目录
+      # - $docker-path/sun-panel/runtime:/app/runtime # 挂载日志目录
       # - /mnt/sata1-1:/os # 硬盘挂载点（根据自己需求修改）
     ports:
       - 3002:3002
@@ -23,7 +23,7 @@ services:
       watchcow.display_name: "Sun Panel"
       watchcow.desc: "简洁易用的服务器监控与管理面板"
       watchcow.version: "1.0.0"
-      watchcow.maintainer: "WatchCow"
+      watchcow.maintainer: "Runos"
       
       # 网络配置
       watchcow.service_port: "3002"  # 宿主机端口

@@ -7,7 +7,7 @@ services:
       VERSION: "10"
       LANGUAGE: "Chinese"  # 设置为中文版Windows
       USERNAME: "$name"
-      PASSWORD: "$name@pwd"
+      PASSWORD: "$password"
     devices:
       - /dev/kvm
       - /dev/net/tun

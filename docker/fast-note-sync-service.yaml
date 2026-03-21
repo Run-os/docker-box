@@ -19,7 +19,7 @@ services:
       watchcow.display_name: "obsidian"
       watchcow.desc: "obsidian 同步插件"
       watchcow.version: "1.0.0"
-      watchcow.maintainer: "WatchCow"
+      watchcow.maintainer: "Runos"
       
       # 网络配置
       watchcow.service_port: "9000"  # 宿主机端口

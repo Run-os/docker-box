@@ -4,7 +4,7 @@ services:
         image: gdy666/lucky:v2
         container_name: lucky
         volumes:
-            - /vol1/1000/Docker/lucky/conf:/app/conf
+            - $docker-path/lucky/conf:/app/conf
             - /var/run/docker.sock:/var/run/docker.sock
         network_mode: host
         restart: always

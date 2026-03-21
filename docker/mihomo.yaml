@@ -10,7 +10,7 @@ services:
     cap_add:
       - ALL
     volumes:
-      - /vol1/1000/Docker/mihomo:/root/.config/mihomo
+      - $docker-path/mihomo:/root/.config/mihomo
       - /dev/net/tun:/dev/net/tun
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
@@ -22,7 +22,7 @@ services:
     ports:
       - '9097:80'
     volumes:
-      - /vol1/1000/Docker/mihomo/config.yaml:/root/.config/clash/config.yamlservices:
+      - $docker-path/mihomo/config.yaml:/root/.config/clash/config.yamlservices:
    mihomo:
     container_name: mihomo
     image: metacubex/mihomo:latest
@@ -33,7 +33,7 @@ services:
     cap_add:
       - ALL
     volumes:
-      - /vol1/1000/Docker/mihomo:/root/.config/mihomo
+      - $docker-path/mihomo:/root/.config/mihomo
       - /dev/net/tun:/dev/net/tun
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
@@ -45,4 +45,4 @@ services:
     ports:
       - '9097:80'
     volumes:
-      - /vol1/1000/Docker/mihomo/config.yaml:/root/.config/clash/config.yaml
+      - $docker-path/mihomo/config.yaml:/root/.config/clash/config.yaml
