@@ -3,11 +3,13 @@
 # 代理网址的备选：https://gh.llkk.cc
 URL_PREFIX="https://gh.llkk.cc"
 API_URL="https://api.github.com/repos/Run-os/docker-box/contents/docker?ref=main"
+DESC_URL="https://gh.llkk.cc/https://raw.githubusercontent.com/Run-os/docker-box/main/desc.json"
 
 # 功能：从GitHub获取docker配置列表，用户选择后下载并写入变量
 name=""
 password=""
 DOCKER_DATA=""
+declare -A desc_map=()
 
 # 定义颜色输出函数
 readonly RED='\033[31m\033[01m'
@@ -52,6 +54,49 @@ ensure_directory() {
             return 1
         }
         green "创建目录: $dir"
+    fi
+}
+
+# 加载描述信息函数
+load_desc() {
+    green "正在加载描述信息..."
+    local desc_content
+    desc_content=$(curl -s "$DESC_URL")
+    if [ -n "$desc_content" ]; then
+        if command -v jq &> /dev/null; then
+            # 使用jq解析
+            while IFS= read -r key; do
+                local value
+                value=$(echo "$desc_content" | jq -r ".\"$key\"")
+                desc_map["$key"]="$value"
+            done < <(echo "$desc_content" | jq -r 'keys[]')
+        elif command -v python3 &> /dev/null; then
+            # 使用python3解析
+            while IFS= read -r line; do
+                local key value
+                key=$(echo "$line" | cut -d':' -f1 | tr -d '"' | xargs)
+                value=$(echo "$line" | cut -d':' -f2- | tr -d ',' | xargs)
+                desc_map["$key"]="$value"
+            done < <(python3 -c "import json,sys; d=json.load(sys.stdin); [print(f'{k}:{v}') for k,v in d.items()]" <<< "$desc_content")
+        elif command -v python &> /dev/null; then
+            # 使用python解析
+            while IFS= read -r line; do
+                local key value
+                key=$(echo "$line" | cut -d':' -f1 | tr -d '"' | xargs)
+                value=$(echo "$line" | cut -d':' -f2- | tr -d ',' | xargs)
+                desc_map["$key"]="$value"
+            done < <(python -c "import json,sys; d=json.load(sys.stdin); [print(f'{k}:{v}') for k,v in d.items()]" <<< "$desc_content")
+        else
+            # 使用grep+sed解析
+            while IFS= read -r line; do
+                local key value
+                key=$(echo "$line" | grep -oP '"\K[^"]+(?="\s*:)' || echo "$line" | sed -n 's/.*"\([^"]*\)"[[:space:]]*:.*/\1/p')
+                value=$(echo "$line" | grep -oP ':\s*"\K[^"]+' || echo "$line" | sed -n 's/.*:[[:space:]]*"\([^"]*\)".*/\1/p')
+                if [ -n "$key" ] && [ -n "$value" ]; then
+                    desc_map["$key"]="$value"
+                fi
+            done < <(echo "$desc_content" | grep -E '"[^"]+"\s*:\s*"[^"]+"')
+        fi
     fi
 }
 
@@ -128,14 +173,19 @@ select_and_install() {
         fi
     fi
     
+    # 加载描述信息
+    load_desc
+    
     # 显示列表
     echo ""
     cyan "========== 可用的Docker配置 =========="
     
     local count=${#names[@]}
     for ((i=0; i<count; i++)); do
-        local display_name="${names[$i]%.yaml}"
-        printf "%2d. %s\n" $((i+1)) "$display_name"
+        local fname="${names[$i]}"
+        local display="${fname%.yaml}"
+        local dsc="${desc_map[$display]:-无描述}"
+        printf "%2d. %-20s → %s\n" $((i+1)) "$display" "$dsc"
     done
     
     echo ""
