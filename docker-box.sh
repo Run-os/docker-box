@@ -211,16 +211,23 @@ select_and_install() {
     echo ""
     cyan "=============================="
     
-    # 询问是否启动
-    printf "是否立即启动容器? (y/n): "
-    read -r start_now
-    
-    if [ "$start_now" = "y" ] || [ "$start_now" = "Y" ]; then
+    # 如果配置内容为空，则报错
+    if [ ! -s docker-compose.yml ]; then
+        red "配置文件内容为空，可能下载失败"
+        return 1
+    fi
+
+    # 询问是否启动容器，默认不启动
+    read -rp "是否立即启动容器? (y/N): " start_now
+    # 处理默认值：未输入/输入非y时，默认不启动
+    start_now=${start_now:-n}
+    if [[ "${start_now,,}" == "y" ]]; then
         green "正在启动容器..."
-        docker compose up -d || {
+        # 启动容器并捕获错误
+        if ! docker compose up -d; then
             red "容器启动失败"
             return 1
-        }
+        fi
         green "容器启动成功!"
     fi
 }
