@@ -1,6 +1,7 @@
 #!/bin/bash
-
-API_URL="https://api.github.com/repos/Run-os/docker-box/contents/docker?ref=main"
+# 描述：从GitHub获取docker配置列表，用户选择后下载并写入变量
+# 代理网址：https://gh.llkk.cc
+API_URL="https://gh.llkk.cc/https://api.github.com/repos/Run-os/docker-box/contents/docker?ref=main"
 
 # 功能：从GitHub获取docker配置列表，用户选择后下载并写入变量
 name=""
