@@ -197,8 +197,9 @@ select_and_install() {
     
     # 替换变量并写入docker-compose.yml
     # 使用单引号防止shell展开，然后替换字面量 $name 和 $password
+    # 使用 # 作为分隔符，避免路径中的 / 与 sed 分隔符冲突
     local final_content
-    final_content=$(printf '%s' "$yaml_content" | sed "s/\$name/$name/g" | sed "s/\$password/$password/g" | sed "s/\$docker-path/$DOCKER_DATA/g")
+    final_content=$(printf '%s' "$yaml_content" | sed "s#\$name#$name#g" | sed "s#\$password#$password#g" | sed "s#\$docker-path#$DOCKER_DATA#g")
     
     # 写入文件
     printf '%s\n' "$final_content" > docker-compose.yml
