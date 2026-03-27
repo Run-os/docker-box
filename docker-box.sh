@@ -1,6 +1,6 @@
 #!/bin/bash
 # 描述：从GitHub获取docker配置列表，用户选择后下载并写入变量
-# 代理网址的变量：https://gh.llkk.cc
+# 代理网址的备选：https://gh.llkk.cc
 URL_PREFIX="https://gh.llkk.cc"
 API_URL="https://api.github.com/repos/Run-os/docker-box/contents/docker?ref=main"
 
@@ -31,13 +31,13 @@ while getopts "n:p:d:" opt; do
         n) name="$OPTARG" ;;
         p) password="$OPTARG" ;;
         d) DOCKER_DATA="$OPTARG" ;;
-        ?) echo "用法: $0 -n 用户名 -p 密码 -d 数据路径" && exit 1 ;;
+        ?) echo "用法: $0 -n 用户名 -p 密码 -d Docker-compose保存路径" && exit 1 ;;
     esac
 done
 
 # 检查必要参数
 if [ -z "$name" ] || [ -z "$password" ] || [ -z "$DOCKER_DATA" ]; then
-    echo "用法: $0 -n 用户名 -p 密码 -d 数据路径"
+    echo "用法: $0 -n 用户名 -p 密码 -d Docker-compose保存路径"
     exit 1
 fi
 
@@ -61,6 +61,7 @@ select_and_install() {
     clear
     
     green "正在获取Docker配置列表..."
+    green "当前使用代理：$URL_PREFIX"
     
     # 获取API数据
     local json_data
@@ -175,7 +176,6 @@ select_and_install() {
 
     green "您选择了: $display_name"
     green "正在下载配置文件..."
-    green "代理地址已添加: $URL_PREFIX"
     green "下载地址: $selected_url"
 
 
