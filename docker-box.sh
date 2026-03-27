@@ -168,16 +168,18 @@ select_and_install() {
     local selected_name="${names[$idx]}"
     local display_name="${selected_name%.yaml}"
     
-    green "您选择了: $display_name"
-    green "正在下载配置文件..."
-    green "下载地址: $selected_url"
-    
     # 下载yaml内容
     local yaml_content
     # 在$selected_url中的https://raw.githubusercontent.com前面添加代理地址URL_PREFIX
     selected_url="${selected_url/https:\/\/raw.githubusercontent.com/$URL_PREFIX/https:\/\/raw.githubusercontent.com}"
+
+    green "您选择了: $display_name"
+    green "正在下载配置文件..."
+    green "代理地址已添加: $URL_PREFIX"
+    green "下载地址: $selected_url"
+
+
     yaml_content=$(curl -s "$selected_url")
-    
     if [ -z "$yaml_content" ]; then
         red "下载配置文件失败"
         return 1
