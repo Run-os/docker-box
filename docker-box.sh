@@ -1,7 +1,8 @@
 #!/bin/bash
 # 描述：从GitHub获取docker配置列表，用户选择后下载并写入变量
-# 代理网址：https://gh.llkk.cc
-API_URL="https://gh.llkk.cc/https://api.github.com/repos/Run-os/docker-box/contents/docker?ref=main"
+# 代理网址的变量：https://gh.llkk.cc
+URL_PREFIX="https://gh.llkk.cc"
+API_URL="https://api.github.com/repos/Run-os/docker-box/contents/docker?ref=main"
 
 # 功能：从GitHub获取docker配置列表，用户选择后下载并写入变量
 name=""
@@ -173,6 +174,8 @@ select_and_install() {
     
     # 下载yaml内容
     local yaml_content
+    # 在$selected_url中的https://raw.githubusercontent.com前面添加代理地址URL_PREFIX
+    selected_url="${selected_url/https:\/\/raw.githubusercontent.com/$URL_PREFIX/https:\/\/raw.githubusercontent.com}"
     yaml_content=$(curl -s "$selected_url")
     
     if [ -z "$yaml_content" ]; then
