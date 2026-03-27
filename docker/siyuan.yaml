@@ -10,7 +10,7 @@ services:
     volumes:
       - /var/apps/docker-siyuan/shares/siyuan/workspace:/siyuan/workspace
       - /var/apps/docker-siyuan/var/config:/.config
-    restart: unless-stopped
+    restart: always
     environment:
       - TZ=Etc/UTC
     networks:

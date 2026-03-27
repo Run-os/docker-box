@@ -4,7 +4,12 @@ services:
     image: qdrant/qdrant
     container_name: qdrant
     restart: always
+    ports:
+      - "6333:6333"
+      - "6334:6334"
     volumes:
-      - qdrant_data:/qdrant/storage
+      - $docker-path/qdrant/storage/:/qdrant/storage
+    environment: 
+      QDRANT__SERVICE__API_KEY: ""
     tty: true
     stdin_open: true
