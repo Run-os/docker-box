@@ -1,8 +1,8 @@
 {
     "copaw": "开源 AI 助手，阿里出品的龙虾🦐",
-    "dockercopilot": "Docker 管理助手",
+    "docker-copilot": "Docker 管理助手",
     "easynode": "在线shell工具，节点管理工具",
-    "fast-note-sync-service": "obsidian笔记同步服务",
+    "fast-note-sync": "obsidian笔记同步服务",
     "lucky": "综合运维面板",
     "maxkb": "1panel的开源知识库系统",
     "memos": "轻量级笔记工具-备忘录",
@@ -13,7 +13,7 @@
     "qdrant": "AI 向量数据库",
     "siyuan": "思源笔记",
     "sun-panel": "导航面板",
-    "syncclipboard": "剪贴板同步",
+    "sync-clipboard": "剪贴板同步",
     "umi-ocr": "图片文字识别",
     "win-docker": "Docker版本的Windows",
     "xiaomusic": "小爱音箱音源替代"
