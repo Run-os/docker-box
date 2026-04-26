@@ -8,23 +8,3 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock
         network_mode: host
         restart: always
-        
-        labels:
-            # 启用 WatchCow 发现
-            watchcow.enable: "true"
-            
-            # 应用标识
-            watchcow.appname: "watchcow.lucky"
-            watchcow.display_name: "Lucky"
-            watchcow.desc: "Lucky Docker 管理工具，提供容器可视化管理界面"
-            watchcow.version: "2.0.0"
-            watchcow.maintainer: "$name"
-            
-            # 网络配置 (Lucky 默认端口为 16601)
-            watchcow.service_port: "16601"
-            watchcow.protocol: "http"
-            watchcow.path: "/"
-            
-            # UI 配置
-            watchcow.ui_type: "url"
-            watchcow.icon: "https://s2.loli.net/2026/01/19/5ajNXdOUR91cokB.png"

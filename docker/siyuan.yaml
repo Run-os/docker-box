@@ -15,25 +15,7 @@ services:
       - TZ=Etc/UTC
     networks:
       - trim-default
-    labels:
-      # 启用 WatchCow 发现
-      watchcow.enable: "true"
-      
-      # 应用标识
-      watchcow.appname: "watchcow.siyuan"
-      watchcow.display_name: "SiYuan"
-      watchcow.desc: "思源笔记 Docker 版"
-      watchcow.version: "1.1.0"
-      watchcow.maintainer: "$name"
-      
-      # 网络配置
-      watchcow.service_port: "6806"  # 宿主机端口
-      watchcow.protocol: "http"
-      watchcow.path: "/"
-      
-      # UI 配置
-      watchcow.ui_type: "url"
-      watchcow.icon: "https://s2.loli.net/2026/01/19/Rv8U2QVKwGSMCzf.png"
+
 networks:
   trim-default:
     external: true

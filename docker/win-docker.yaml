@@ -4,8 +4,8 @@ services:
     image: dockurr/windows
     container_name: windows
     environment:
-      VERSION: "10"
-      LANGUAGE: "Chinese"  # 设置为中文版Windows
+      VERSION: "7u"
+      LANGUAGE: "English"  # 设置为中文版Windows
       USERNAME: "$name"
       PASSWORD: "$password"
     devices:

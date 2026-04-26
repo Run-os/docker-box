@@ -10,15 +10,4 @@ services:
       - $docker-path/memos/data:/var/opt/memos
     tty: true
     stdin_open: true
-    labels:
-      watchcow.enable: "true"
-      watchcow.appname: watchcow.memos
-      watchcow.display_name: Memos
-      watchcow.desc: 一个轻量级、可自行托管的备忘录中心，方便您轻松捕捉和分享想法。开源，无追踪，永久免费。
-      watchcow.version: 1.0.0
-      watchcow.maintainer: WatchCow
-      watchcow.service_port: "5230"
-      watchcow.protocol: http
-      watchcow.path: /
-      watchcow.ui_type: url
-      watchcow.icon: https://s2.loli.net/2026/01/19/H4zQKYnyN2dkTFv.png
+

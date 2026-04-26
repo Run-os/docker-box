@@ -11,23 +11,3 @@ services:
       - /vol1/1000/Music/download:/app/download
     restart: always
     network_mode: bridge  # 添加网络模式确保兼容性
-    
-    labels:
-      # 启用 WatchCow 发现
-      watchcow.enable: "true"
-
-      # 应用标识
-      watchcow.appname: "watchcow.music-tag"
-      watchcow.display_name: "音乐标签编辑器"
-      watchcow.desc: "音乐标签编辑工具，用于管理和编辑音乐文件的元数据"
-      watchcow.version: "1.0.0"
-      watchcow.maintainer: "Runos"
-      
-      # 网络配置
-      watchcow.service_port: "8002"  # 宿主机端口
-      watchcow.protocol: "http"
-      watchcow.path: "/"
-      
-      # UI 配置
-      watchcow.ui_type: "url"
-      watchcow.icon: "https://s2.loli.net/2026/01/15/9qhmIRac8soLCuU.png"

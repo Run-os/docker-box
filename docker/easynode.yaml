@@ -19,19 +19,6 @@ services:
         condition: service_healthy
     networks:
       - easynode-network
-    labels:
-      com.centurylinklabs.watchtower.enable: "true"
-      watchcow.enable: "true"
-      watchcow.appname: "watchcow.easynode"
-      watchcow.display_name: "EasyNode"
-      watchcow.desc: "服务器管理与远程控制工具"
-      watchcow.version: "1.0.0"
-      watchcow.maintainer: "Runos"
-      watchcow.service_port: "8082"
-      watchcow.protocol: "http"
-      watchcow.path: "/"
-      watchcow.ui_type: "url"
-      watchcow.icon: "https://s2.loli.net/2026/01/15/O7pQ1ziNVEhclyf.png"
 
   easynode-guacd:
     container_name: easynode-guacd
