@@ -1,29 +1,20 @@
+# 每日股票分析工具
 # PRE_RUN: touch $target_dir/.env
-x-common: &common
-  build:
-    context: $target_dir
-    dockerfile: docker/Dockerfile
-  restart: unless-stopped
-  env_file:
-    - $target_dir/.env
-  environment:
-    - TZ=Asia/Shanghai
-  volumes:
-    - $target_dir/data:/app/data
-    - $target_dir/logs:/app/logs
-    - $target_dir/reports:/app/reports
-    - $target_dir/.env:/app/.env
 
 services:
-  # 定时任务模式
-  analyzer:
-    <<: *common
-    container_name: stock-analyzer
-
-  # FastAPI 模式
-  server:
-    <<: *common
-    container_name: stock-server
-    command: ["python", "main.py", "--serve-only", "--host", "0.0.0.0", "--port", "8000"]
+  dsa-server:
+    image: zhulinsen/daily_stock_analysis:latest
+    container_name: dsa-server
+    restart: unless-stopped
+    env_file:
+      - $target_dir/.env
     ports:
       - "8050:8000"
+    volumes:
+      - $target_dir/data:/app/data
+      - $target_dir/logs:/app/logs
+      - $target_dir/reports:/app/reports
+      - $target_dir/.env:/app/.env
+    command: ["python", "main.py", "--serve-only", "--host", "0.0.0.0", "--port", "8000"]
+    environment:
+      - TZ=Asia/Shanghai
