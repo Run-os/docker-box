@@ -7,7 +7,7 @@ services:
       - "8002:8002"
     volumes:
       - /vol1/1000/Music/media:/app/media
-      - $docker-path/music_tag_web/config:/app/data
+      - $docker_path/music_tag_web/config:/app/data
       - /vol1/1000/Music/download:/app/download
     restart: always
     network_mode: bridge  # 添加网络模式确保兼容性

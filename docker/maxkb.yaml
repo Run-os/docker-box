@@ -7,7 +7,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - $docker-path/maxkb:/opt/maxkb
+      - $docker_path/maxkb:/opt/maxkb
     restart: always
     network_mode: bridge
   

@@ -9,13 +9,13 @@ DESC_URL="https://gh.llkk.cc/https://raw.githubusercontent.com/Run-os/docker-box
 # 自定义变量：
 # name，用户名
 # password，密码
-# docker-path，docker文件夹在设备中的路径。如/vol1/1000/Docker
+# docker_path，docker文件夹在设备中的路径。如/vol1/1000/Docker
 # target_dir，docker中的项目目录，内部包含docker-compose.yml文件等。如/vol1/1000/Docker/daily_stock_analysis
 
 # 功能：用户命令行参数解析
 name=""
 password=""
-docker-path=""
+docker_path=""
 declare -A desc_map=()
 
 # 定义颜色输出函数
@@ -39,18 +39,18 @@ while getopts "n:p:d:" opt; do
     case $opt in
         n) name="$OPTARG" ;;
         p) password="$OPTARG" ;;
-        d) docker-path="$OPTARG" ;;
+        d) docker_path="$OPTARG" ;;
         ?) echo "用法: $0 -n 用户名 -p 密码 -d Docker-compose保存路径" && exit 1 ;;
     esac
 done
 
 # 检查必要参数
-if [ -z "$name" ] || [ -z "$password" ] || [ -z "$docker-path" ]; then
+if [ -z "$name" ] || [ -z "$password" ] || [ -z "$docker_path" ]; then
     echo "用法: $0 -n 用户名 -p 密码 -d Docker-compose保存路径"
     exit 1
 fi
 
-printf "账号：%s，密码：%s，数据路径：%s\n" "$name" "$password" "$docker-path"
+printf "账号：%s，密码：%s，数据路径：%s\n" "$name" "$password" "$docker_path"
 
 # 创建目录函数
 ensure_directory() {
@@ -242,8 +242,8 @@ select_and_install() {
         return 1
     fi
     
-    # 创建目录 - 使用全局变量docker-path
-    local target_dir="${docker-path}/${display_name}"
+    # 创建目录 - 使用全局变量docker_path
+    local target_dir="${docker_path}/${display_name}"
     ensure_directory "$target_dir"
     
     # 进入目录
@@ -256,7 +256,7 @@ select_and_install() {
     # 使用单引号防止shell展开，然后替换字面量 $name 和 $password
     # 使用 # 作为分隔符，避免路径中的 / 与 sed 分隔符冲突
     local final_content
-    final_content=$(printf '%s' "$yaml_content" | sed "s#\$name#$name#g" | sed "s#\$password#$password#g" | sed "s#\$docker-path#$docker-path#g" | sed "s#\$target_dir#$target_dir#g")
+    final_content=$(printf '%s' "$yaml_content" | sed "s#\$name#$name#g" | sed "s#\$password#$password#g" | sed "s#\$docker_path#$docker_path#g" | sed "s#\$target_dir#$target_dir#g")
     
     # 写入文件
     printf '%s\n' "$final_content" > docker-compose.yml

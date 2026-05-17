@@ -7,7 +7,7 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - $docker-path/new-api/data:/data
+      - $docker_path/new-api/data:/data
     environment:
       TZ: Asia/Shanghai
     tty: true

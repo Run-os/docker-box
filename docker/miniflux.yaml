@@ -16,7 +16,7 @@ services:
     ports:
       - "8085:8080"
     volumes:
-      - ./data:$docker-path/miniflux/miniflux
+      - ./data:$docker_path/miniflux/miniflux
 
 
 
@@ -29,7 +29,7 @@ services:
       - POSTGRES_PASSWORD=$password
       - POSTGRES_DB=miniflux
     volumes:
-      - ./pgsql_data:$docker-path/miniflux/postgresql/data
+      - ./pgsql_data:$docker_path/miniflux/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "miniflux"]
       interval: 10s

@@ -9,6 +9,6 @@ services:
     environment:
       XIAOMUSIC_PUBLIC_PORT: 58090
     volumes:
-      - $docker-path/media/xiaomusic_music:/app/music
-      - $docker-path/media/xiaomusic_conf:/app/conf
+      - $docker_path/media/xiaomusic_music:/app/music
+      - $docker_path/media/xiaomusic_conf:/app/conf
     network_mode: bridge  # 添加网络模式确保兼容性
