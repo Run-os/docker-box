@@ -1,0 +1,30 @@
+version: '3.8'
+
+x-common: &common
+  build:
+    context: $docker-path
+    dockerfile: docker/Dockerfile
+  restart: unless-stopped
+  env_file:
+    - $docker-path/.env
+  environment:
+    - TZ=Asia/Shanghai
+  volumes:
+    - $docker-path/data:/app/data
+    - $docker-path/logs:/app/logs
+    - $docker-path/reports:/app/reports
+    - $docker-path/.env:/app/.env
+
+services:
+  # 定时任务模式
+  analyzer:
+    <<: *common
+    container_name: stock-analyzer
+
+  # FastAPI 模式
+  server:
+    <<: *common
+    container_name: stock-server
+    command: ["python", "main.py", "--serve-only", "--host", "0.0.0.0", "--port", "8000"]
+    ports:
+      - "8050:8000"
