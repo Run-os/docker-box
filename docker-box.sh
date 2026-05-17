@@ -12,6 +12,11 @@ DESC_URL="https://gh.llkk.cc/https://raw.githubusercontent.com/Run-os/docker-box
 # docker_path，docker文件夹在设备中的路径。如/vol1/1000/Docker
 # target_dir，docker中的项目目录，内部包含docker-compose.yml文件等。如/vol1/1000/Docker/daily_stock_analysis
 
+# 前置命令示例：
+# PRE_RUN: mkdir -p $target_dir/data
+# PRE_RUN: chmod -R 777 $target_dir/data
+# PRE_RUN: echo "初始化完成"
+
 # 功能：用户命令行参数解析
 name=""
 password=""
@@ -275,11 +280,39 @@ select_and_install() {
         return 1
     fi
 
+    # 解析并执行前置命令
+    execute_pre_run_commands() {
+        local content="$1"
+        local pre_run_cmds
+        pre_run_cmds=$(printf '%s' "$content" | grep -E '^#\s*PRE_RUN:\s*' | sed 's/^#\s*PRE_RUN:\s*//')
+        
+        if [ -n "$pre_run_cmds" ]; then
+            green "检测到前置命令，开始执行..."
+            while IFS= read -r cmd; do
+                if [ -n "$cmd" ]; then
+                    cmd=$(printf '%s' "$cmd" | sed "s#\$name#$name#g" | sed "s#\$password#$password#g" | sed "s#\$docker_path#$docker_path#g" | sed "s#\$target_dir#$target_dir#g")
+                    yellow "执行前置命令: $cmd"
+                    if ! eval "$cmd"; then
+                        red "前置命令执行失败: $cmd"
+                        return 1
+                    fi
+                    green "前置命令执行成功"
+                fi
+            done <<< "$pre_run_cmds"
+        fi
+    }
+    
     # 询问是否启动容器，默认不启动
     read -rp "是否立即启动容器? (y/N): " start_now
     # 处理默认值：未输入/输入非y时，默认不启动
     start_now=${start_now:-n}
     if [[ "${start_now,,}" == "y" ]]; then
+        # 先执行前置命令
+        if ! execute_pre_run_commands "$yaml_content"; then
+            red "前置命令执行失败，取消启动"
+            return 1
+        fi
+        
         green "正在启动容器..."
         # 启动容器并捕获错误
         if ! docker compose up -d; then
