@@ -1,19 +1,17 @@
-version: '3.8'
-
 x-common: &common
   build:
-    context: $docker-path
+    context: $target_dir
     dockerfile: docker/Dockerfile
   restart: unless-stopped
   env_file:
-    - $docker-path/.env
+    - $target_dir/.env
   environment:
     - TZ=Asia/Shanghai
   volumes:
-    - $docker-path/data:/app/data
-    - $docker-path/logs:/app/logs
-    - $docker-path/reports:/app/reports
-    - $docker-path/.env:/app/.env
+    - $target_dir/data:/app/data
+    - $target_dir/logs:/app/logs
+    - $target_dir/reports:/app/reports
+    - $target_dir/.env:/app/.env
 
 services:
   # 定时任务模式
