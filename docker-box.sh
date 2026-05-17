@@ -45,7 +45,7 @@ while getopts "n:p:d:" opt; do
         n) name="$OPTARG" ;;
         p) password="$OPTARG" ;;
         d) docker_path="$OPTARG" ;;
-        ?) echo "用法: $0 -n 用户名 -p 密码 -d Docker-compose保存路径" && exit 1 ;;
+        ?) echo "用法: $0 -n 用户名 -p 密码 -d Docker数据文件夹(非项目文件夹)" && exit 1 ;;
     esac
 done
 
