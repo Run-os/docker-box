@@ -1,0 +1,13 @@
+services:
+  gotify:
+    image: swr.cn-north-4.myhuaweicloud.com/firfe/gotify:latest
+    container_name: Gotify
+    ports:
+      - 8999:80    # 冒号前面端口不冲突即可
+    restart: unless-stopped  # 设置为 unless-stopped，表示除非手动停止，否则会自动重启
+    volumes:
+      - $target_dir/gotify-data:/app/data:rw    # 冒号前面映射gotify文件夹路径
+    environment:
+      GOTIFY_DEFAULTUSER_NAME: $name
+      GOTIFY_DEFAULTUSER_PASS: $password
+      TZ: Asia/Shanghai
