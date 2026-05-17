@@ -1,6 +1,6 @@
 services:
   gotify:
-    image: swr.cn-north-4.myhuaweicloud.com/firfe/gotify:latest
+    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/gotify/server:2.7.3
     container_name: Gotify
     ports:
       - 8999:80    # 冒号前面端口不冲突即可
